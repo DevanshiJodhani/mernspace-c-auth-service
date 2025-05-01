@@ -3,7 +3,7 @@ import app from '../../src/app'
 import { DataSource } from 'typeorm'
 import { User } from '../../src/entity/User'
 import { AppDataSource } from '../../src/config/data-source'
-import { truncateTables } from '../utils'
+import { Roles } from '../../src/constants'
 
 describe('POST /auth/register', () => {
     let connection: DataSource
@@ -14,7 +14,8 @@ describe('POST /auth/register', () => {
 
     beforeEach(async () => {
         // Database truncate
-        await truncateTables(connection)
+        await connection.dropDatabase()
+        await connection.synchronize()
     })
 
     afterAll(async () => {
@@ -82,7 +83,7 @@ describe('POST /auth/register', () => {
             expect(users[0].email).toBe(userData.email)
         })
 
-        // My Code Logic for this test case.
+        // My Code Logic for this id test case.
         it('Should return an id of the created user', async () => {
             // Arrange
             const userData = {
@@ -123,6 +124,26 @@ describe('POST /auth/register', () => {
         //         users[0].id,
         //     )
         // })
+
+        it('Should assign a customer role', async () => {
+            // Arrange
+            const userData = {
+                firstName: 'Devanshi',
+                lastName: 'Jodhani',
+                email: 'devanshi@mern.space',
+                password: 'secret',
+            }
+
+            // Act
+            await request(app).post('/auth/register').send(userData)
+
+            // Assert
+            const userRepository = connection.getRepository(User)
+            const users = await userRepository.find()
+
+            expect(users[0]).toHaveProperty('role')
+            expect(users[0].role).toBe(Roles.CUSTOMER)
+        })
     })
 
     describe('Fields are missing', () => {})
