@@ -1,4 +1,5 @@
 import { Repository } from 'typeorm'
+import bcrypt from 'bcrypt'
 import { User } from '../entity/User'
 import { UserData } from '../types'
 import createHttpError from 'http-errors'
@@ -7,14 +8,26 @@ import { Roles } from '../constants'
 export class UserService {
     constructor(private userRepository: Repository<User>) {}
 
-    // For my id testing.
     async create({ firstName, lastName, email, password }: UserData) {
+        const user = await this.userRepository.findOne({
+            where: { email: email },
+        })
+
+        if (user) {
+            const error = createHttpError(400, 'Email is already exists!')
+            throw error
+        }
+
+        // Hash the password
+        const saltRounds = 10
+        const hashedPassword = await bcrypt.hash(password, saltRounds)
+
         try {
             return await this.userRepository.save({
                 firstName,
                 lastName,
                 email,
-                password,
+                password: hashedPassword,
                 role: Roles.CUSTOMER,
             })
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
