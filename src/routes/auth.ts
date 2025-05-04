@@ -15,8 +15,9 @@ const authController = new AuthController(userService, logger)
 router.post(
     '/register',
     registerValidator,
-    (req: Request, res: Response, next: NextFunction) =>
-        authController.register(req, res, next),
+    async (req: Request, res: Response, next: NextFunction) => {
+        await authController.register(req, res, next)
+    },
 )
 
 export default router
