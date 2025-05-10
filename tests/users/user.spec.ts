@@ -107,9 +107,9 @@ describe('GET /auth/self', () => {
 
             // Assert
             // Chcek if user id matches with registered user
-            expect(
-                (response.body as Record<string, string>).password,
-            ).not.toHaveProperty('Password')
+            expect(response.body as Record<string, string>).not.toHaveProperty(
+                'Password',
+            )
         })
 
         it('Should return 401 status code if token does not exists', async () => {
