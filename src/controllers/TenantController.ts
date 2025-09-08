@@ -2,7 +2,8 @@ import { NextFunction, Response, Request } from 'express'
 import { TenantService } from '../services/TenantService'
 import { CreateTenantRequest, TenantQueryParams } from '../types'
 import { Logger } from 'winston'
-import { matchedData, validationResult } from 'express-validator/check'
+import { validationResult } from 'express-validator/check'
+import { matchedData } from 'express-validator/filter'
 import createHttpError from 'http-errors'
 
 export class TenantController {
@@ -32,7 +33,6 @@ export class TenantController {
     }
 
     async getAll(req: Request, res: Response, next: NextFunction) {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-call
         const validatedQuery = matchedData(req, {
             onlyValidData: true,
         }) as TenantQueryParams
