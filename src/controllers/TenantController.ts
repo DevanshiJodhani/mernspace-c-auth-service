@@ -33,24 +33,22 @@ export class TenantController {
     }
 
     async getAll(req: Request, res: Response, next: NextFunction) {
-        const validatedQuery = matchedData(req, {
-            onlyValidData: true,
-        }) as TenantQueryParams
+        const validatedQuery = matchedData(req, { onlyValidData: true })
         try {
-            const [tenants, count] =
-                await this.tenantService.getAll(validatedQuery)
+            const [tenants, count] = await this.tenantService.getAll(
+                validatedQuery as TenantQueryParams,
+            )
 
             this.logger.info('All tenant have been fetched')
             res.json({
-                currentPage: validatedQuery.currentPage,
-                perPage: validatedQuery.perPage,
+                currentPage: validatedQuery.currentPage as number,
+                perPage: validatedQuery.perPage as number,
                 total: count,
                 data: tenants,
             })
-        } catch (err: unknown) {
-            if (err instanceof Error) {
-                this.logger.error(err.message)
-            }
+
+            res.json(tenants)
+        } catch (err) {
             next(err)
         }
     }
