@@ -42,7 +42,7 @@ jobs:
         runs-on: ubuntu-latest
         env:
             IMAGE_NAME: devanshijodhani/mernstack_auth_service  # devanshijodhani/mernstack_auth_service:build-1
-            
+
             IMAGE_TAG: build-${{ github.run_number }}
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         steps:
@@ -57,4 +57,3 @@ jobs:
               run: docker build -t ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} --platform linux/amd64 -f docker/prod/Dockerfile .
             - name: Push Docker image to Docker Hub
               run: docker push ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
-
