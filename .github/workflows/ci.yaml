@@ -10,42 +10,38 @@ on:
 
 jobs:
     build-and-test:
-        name: Build the project
+        name: Build and Test
         runs-on: ubuntu-latest
+        env:
+            CI: true 
+            DB_HOST: ${{ secrets.TEST_DB_HOST }}
+            DB_PORT: ${{ secrets.TEST_DB_PORT }}
+            DB_USERNAME: ${{ secrets.TEST_DB_USERNAME }}
+            DB_PASSWORD: ${{ secrets.TEST_DB_PASSWORD }}
+            DB_NAME: ${{ secrets.TEST_DB_NAME }}
+            REFRESH_TOKEN_SECRET: ${{ secrets.REFRESH_TOKEN_SECRET }}
+            JWKS_URI: ${{ secrets.JWKS_URI }}
+            PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
 
         steps:
-            - uses: actions/checkout@v3
+            - name: Checkout Repository
+              uses: actions/checkout@v3
 
-            - name: Install dependencies
+            - name: Set up Node.js
+              uses: actions/setup-node@v3
+              with:
+                  node-version: 20
+
+            - name: Install Dependencies
               run: npm ci
 
-            - name: Run eslint
+            - name: Run ESLint
               run: npm run lint:fix
 
-            - name: Test and coverage
-              env:
-                  DB_HOST: root
-                  DB_PORT: 5500
-                  DB_USERNAME: dbgate
-                  DB_PASSWORD: root
-                  DB_NAME: testdb
-                  REFRESH_TOKEN_SECRET: hello
-                  JWKS_URI: somhitng
-                  PRIVATE_KEY: thisisrivatekey12345
-              run: |
-                  echo "DB_HOST: $DB_HOST"
-                  echo "DB_PORT: $DB_PORT"
-                  echo "DB_USERNAME: $DB_USERNAME"
-                  echo "DB_PASSWORD: $DB_PASSWORD"
-                  echo "DB_NAME: $DB_NAME"
-                  echo "REFRESH_TOKEN_SECRET: $REFRESH_TOKEN_SECRET"
-                  echo "JWKS_URI: $JWKS_URI"
-                  echo "PRIVATE_KEY: $PRIVATE_KEY"
+            - name: Run Tests with Coverage
+              run: npm run test
 
-                  # Run your tests
-                  npm run test
-
-            - name: Build-ts
+            - name: Build TypeScript
               run: npm run build
 
             - name: SonarCloud Scan
@@ -58,10 +54,10 @@ jobs:
         name: Build and Push Docker Image
         needs: build-and-test
         runs-on: ubuntu-latest
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         env:
             IMAGE_NAME: devanshijodhani/mernstack_auth_service
             IMAGE_TAG: build-${{ github.run_number }}
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
 
         steps:
             - name: Checkout repository
@@ -73,8 +69,8 @@ jobs:
                   username: ${{ secrets.DOCKERHUB_USERNAME }}
                   password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-            - name: Build Docker image
+            - name: Build Docker Image
               run: docker build -t ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} --platform linux/amd64 -f docker/prod/Dockerfile .
 
-            - name: Push Docker image to Docker Hub
+            - name: Push Docker Image
               run: docker push ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
