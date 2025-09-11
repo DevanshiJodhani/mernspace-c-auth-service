@@ -4,20 +4,19 @@ import { Config } from '../config'
 import { User } from '../entity/User'
 import { RefreshToken } from '../entity/RefreshToken'
 import { Repository } from 'typeorm'
+import path from 'path'
+import fs from 'fs'
 
 export class TokenService {
     constructor(private refreshTokenRepository: Repository<RefreshToken>) {}
 
     generateAccessToken(payload: JwtPayload) {
-        let privateKey: string
-
-        if (!Config.PRIVATE_KEY) {
-            const error = createHttpError(500, 'SECRET_KEY is not set.')
-            throw error
-        }
+        let privateKey: Buffer
 
         try {
-            privateKey = Config.PRIVATE_KEY
+            privateKey = fs.readFileSync(
+                path.join(__dirname, '../../certs/private.pem'),
+            )
 
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
         } catch (err) {
