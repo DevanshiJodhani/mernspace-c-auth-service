@@ -1,4 +1,4 @@
-import { checkSchema } from 'express-validator/check'
+import { checkSchema } from 'express-validator'
 
 export default checkSchema(
     {

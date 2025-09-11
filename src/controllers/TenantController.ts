@@ -2,8 +2,7 @@ import { NextFunction, Response, Request } from 'express'
 import { TenantService } from '../services/TenantService'
 import { CreateTenantRequest, TenantQueryParams } from '../types'
 import { Logger } from 'winston'
-import { validationResult } from 'express-validator/check'
-import { matchedData } from 'express-validator/filter'
+import { validationResult, matchedData } from 'express-validator'
 import createHttpError from 'http-errors'
 
 export class TenantController {
