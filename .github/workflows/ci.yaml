@@ -28,6 +28,16 @@ jobs:
                   REFRESH_TOKEN_SECRET: ${{ secrets.REFRESH_TOKEN_SECRET }}
                   JWKS_URI: ${{ secrets.JWKS_URI }}
                   PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+              run:
+                  echo "DB_HOST (Base64): $(echo -n $DB_HOST | base64)"
+                  echo "DB_PORT (Base64): $(echo -n $DB_PORT | base64)"
+                  echo "DB_USERNAME (Base64): $(echo -n $DB_USERNAME | base64)"
+                  echo "DB_PASSWORD (Base64): $(echo -n $DB_PASSWORD | base64)"
+                  echo "DB_NAME (Base64): $(echo -n $DB_NAME | base64)"
+                  echo "REFRESH_TOKEN_SECRET (Base64): $(echo -n $REFRESH_TOKEN_SECRET | base64)"
+                  echo "JWKS_URI (Base64): $(echo -n $JWKS_URI | base64)"
+                  echo "PRIVATE_KEY (Base64) : $(echo -n $PRIVATE_KEY | base64)"
+
             - name: Build-ts
               run: npm run build
             - name: SonarCloud Scan
