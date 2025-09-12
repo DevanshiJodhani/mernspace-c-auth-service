@@ -36,64 +36,52 @@ const authController = new AuthController(
     credentialService,
 )
 
-router.post(
-    '/register',
-    registerValidator,
-    async (req: Request, res: Response, next: NextFunction) => {
-        ;(await authController.register(
-            req,
-            res,
-            next,
-        )) as unknown as RequestHandler
-    },
-)
+router.post('/register', registerValidator, (async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+) => {
+    await authController.register(req, res, next)
+}) as unknown as RequestHandler)
 
 router.post(
     '/login',
     loginValidator,
-    async (req: Request, res: Response, next: NextFunction) => {
-        ;(await authController.login(
-            req,
-            res,
-            next,
-        )) as unknown as RequestHandler
-    },
+    (req: Request, res: Response, next: NextFunction) =>
+        authController.login(req, res, next) as unknown as RequestHandler,
 )
 
 router.get(
     '/self',
     authenticate as RequestHandler,
-    async (req: Request, res: Response) => {
-        ;(await authController.self(
+    (req: Request, res: Response) =>
+        authController.self(
             req as AuthRequest,
             res,
-        )) as unknown as RequestHandler
-    },
+        ) as unknown as RequestHandler,
 )
 
 router.post(
     '/refresh',
-    validateRefreshToken,
-    async (req: Request, res: Response, next: NextFunction) => {
-        ;(await authController.refresh(
+    validateRefreshToken as RequestHandler,
+    (req: Request, res: Response, next: NextFunction) =>
+        authController.refresh(
             req as AuthRequest,
             res,
             next,
-        )) as unknown as RequestHandler
-    },
+        ) as unknown as RequestHandler,
 )
 
 router.post(
     '/logout',
-    authenticate,
-    parseRefreshToken,
-    async (req: Request, res: Response, next: NextFunction) => {
-        ;(await authController.logout(
+    authenticate as RequestHandler,
+    parseRefreshToken as RequestHandler,
+    (req: Request, res: Response, next: NextFunction) =>
+        authController.logout(
             req as AuthRequest,
             res,
             next,
-        )) as unknown as RequestHandler
-    },
+        ) as unknown as RequestHandler,
 )
 
 export default router
