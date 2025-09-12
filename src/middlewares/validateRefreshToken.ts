@@ -4,7 +4,6 @@ import { Request } from 'express'
 import { AuthCookie, IRefreshTokenPayload } from '../types'
 import { AppDataSource } from '../config/data-source'
 import { RefreshToken } from '../entity/RefreshToken'
-import logger from '../config/logger'
 
 export default expressjwt({
     secret: Config.REFRESH_TOKEN_SECRET!,
@@ -28,10 +27,10 @@ export default expressjwt({
 
         return refreshToken === null
 
-        logger.error('Error while getting refresh token', {
-            id: (token?.payload as IRefreshTokenPayload).id,
-        })
+        // logger.error('Error while getting refresh token', {
+        //     id: (token?.payload as IRefreshTokenPayload).id,
+        // })
 
-        return true
+        // return true
     },
 })
