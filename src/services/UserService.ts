@@ -21,22 +21,13 @@ export class UserService {
         const saltRounds = 10
         const hashedPassword = await bcrypt.hash(password, saltRounds)
 
-        try {
-            return await this.userRepository.save({
-                firstName,
-                lastName,
-                email,
-                password: hashedPassword,
-                role,
-            })
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        } catch (err) {
-            const error = createHttpError(
-                500,
-                'Failed to store the data in the database',
-            )
-            throw error
-        }
+        return await this.userRepository.save({
+            firstName,
+            lastName,
+            email,
+            password: hashedPassword,
+            role,
+        })
     }
 
     async findByEmailWithPassword(email: string) {
@@ -97,22 +88,13 @@ export class UserService {
         userId: number,
         { firstName, lastName, role, email, tenantId }: LimitedUserData,
     ) {
-        try {
-            return await this.userRepository.save({
-                firstName,
-                lastName,
-                role,
-                email,
-                tenant: tenantId ? { id: tenantId } : undefined,
-            })
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        } catch (err) {
-            const error = createHttpError(
-                500,
-                'Failed to update the user in the database',
-            )
-            throw error
-        }
+        return await this.userRepository.save({
+            firstName,
+            lastName,
+            role,
+            email,
+            tenant: tenantId ? { id: tenantId } : undefined,
+        })
     }
 
     async deleteById(userId: number) {
