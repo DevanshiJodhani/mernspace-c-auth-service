@@ -1,4 +1,9 @@
-import express, { NextFunction, Request, Response } from 'express'
+import express, {
+    NextFunction,
+    Request,
+    RequestHandler,
+    Response,
+} from 'express'
 import { AuthController } from '../controllers/AuthController'
 import { UserService } from '../services/UserService'
 import { AppDataSource } from '../config/data-source'
@@ -35,7 +40,11 @@ router.post(
     '/register',
     registerValidator,
     async (req: Request, res: Response, next: NextFunction) => {
-        await authController.register(req, res, next)
+        ;(await authController.register(
+            req,
+            res,
+            next,
+        )) as unknown as RequestHandler
     },
 )
 
@@ -43,19 +52,34 @@ router.post(
     '/login',
     loginValidator,
     async (req: Request, res: Response, next: NextFunction) => {
-        await authController.login(req, res, next)
+        ;(await authController.login(
+            req,
+            res,
+            next,
+        )) as unknown as RequestHandler
     },
 )
 
-router.get('/self', authenticate, async (req: Request, res: Response) => {
-    await authController.self(req as AuthRequest, res)
-})
+router.get(
+    '/self',
+    authenticate as RequestHandler,
+    async (req: Request, res: Response) => {
+        ;(await authController.self(
+            req as AuthRequest,
+            res,
+        )) as unknown as RequestHandler
+    },
+)
 
 router.post(
     '/refresh',
     validateRefreshToken,
     async (req: Request, res: Response, next: NextFunction) => {
-        await authController.refresh(req as AuthRequest, res, next)
+        ;(await authController.refresh(
+            req as AuthRequest,
+            res,
+            next,
+        )) as unknown as RequestHandler
     },
 )
 
@@ -64,7 +88,11 @@ router.post(
     authenticate,
     parseRefreshToken,
     async (req: Request, res: Response, next: NextFunction) => {
-        await authController.logout(req as AuthRequest, res, next)
+        ;(await authController.logout(
+            req as AuthRequest,
+            res,
+            next,
+        )) as unknown as RequestHandler
     },
 )
 
