@@ -16,24 +16,21 @@ export default expressjwt({
     },
 
     async isRevoked(request: Request, token) {
-        try {
-            const refreshTokenRepo = AppDataSource.getRepository(RefreshToken)
-            const refreshToken = await refreshTokenRepo.findOne({
-                where: {
-                    id: Number((token?.payload as IRefreshTokenPayload).id),
-                    user: {
-                        id: Number(token?.payload.sub),
-                    },
+        const refreshTokenRepo = AppDataSource.getRepository(RefreshToken)
+        const refreshToken = await refreshTokenRepo.findOne({
+            where: {
+                id: Number((token?.payload as IRefreshTokenPayload).id),
+                user: {
+                    id: Number(token?.payload.sub),
                 },
-            })
+            },
+        })
 
-            return refreshToken === null
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        } catch (err) {
-            logger.error('Error while getting refresh token', {
-                id: (token?.payload as IRefreshTokenPayload).id,
-            })
-        }
+        return refreshToken === null
+
+        logger.error('Error while getting refresh token', {
+            id: (token?.payload as IRefreshTokenPayload).id,
+        })
 
         return true
     },

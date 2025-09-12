@@ -48,7 +48,7 @@ describe('POST /tenants', () => {
                 .set('Cookie', [`accessToken=${adminToken}`])
                 .send(tenantData)
 
-            expect(response.statusCode)
+            expect(response.statusCode).toBe(201)
         })
 
         it('Should create a tenant in the database', async () => {
