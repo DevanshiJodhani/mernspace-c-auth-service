@@ -1,9 +1,9 @@
 import { sign, JwtPayload } from 'jsonwebtoken'
-import createHttpError from 'http-errors'
 import { Config } from '../config'
 import { User } from '../entity/User'
 import { RefreshToken } from '../entity/RefreshToken'
 import { Repository } from 'typeorm'
+import createHttpError from 'http-errors'
 
 export class TokenService {
     constructor(
@@ -25,6 +25,20 @@ export class TokenService {
         })
 
         return accessToken
+
+        // **** This is for when you run localally test case*****
+
+        // const privateKeyPath = path.join(__dirname, '../../certs/private.pem')
+
+        // const privateKey = fs.readFileSync(privateKeyPath, 'utf8')
+
+        // const accessToken = sign(payload, privateKey, {
+        //     algorithm: 'RS256',
+        //     expiresIn: '1h',
+        //     issuer: 'auth-service',
+        // })
+
+        // return accessToken
     }
 
     generateRefreshToken(payload: JwtPayload) {
