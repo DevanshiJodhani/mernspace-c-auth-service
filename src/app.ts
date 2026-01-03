@@ -6,6 +6,7 @@ import logger from './config/logger'
 import authRouter from './routes/auth'
 import tenantRouter from './routes/tenant'
 import userRouter from './routes/user'
+import { globalErrorHandler } from './middlewares/globalErrorHandler'
 
 const app = express()
 
@@ -22,6 +23,8 @@ app.use('/tenants', tenantRouter)
 app.use('/users', userRouter)
 
 // Global Error handler
+app.use(globalErrorHandler)
+
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 app.use((err: HttpError, req: Request, res: Response, next: NextFunction) => {
     logger.error(err.message)
