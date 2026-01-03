@@ -5,6 +5,9 @@ import { LimitedUserData, UserData, UserQueryParams } from '../types'
 import createHttpError from 'http-errors'
 
 export class UserService {
+    findByEmail() {
+        throw new Error('Method not implemented.')
+    }
     constructor(private readonly userRepository: Repository<User>) {}
 
     async create({ firstName, lastName, email, password, role }: UserData) {
