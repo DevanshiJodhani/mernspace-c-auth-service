@@ -7,6 +7,7 @@ import logger from './config/logger'
 import authRouter from './routes/auth'
 import tenantRouter from './routes/tenant'
 import userRouter from './routes/user'
+import jwksRoutes from './routes/jwks'
 import { globalErrorHandler } from './middlewares/globalErrorHandler'
 import { Config } from './config'
 
@@ -26,6 +27,7 @@ app.get('/', (req, res) => {
     res.send('Welcome to auth service.')
 })
 
+app.use(jwksRoutes)
 app.use('/auth', authRouter)
 app.use('/tenants', tenantRouter)
 app.use('/users', userRouter)
