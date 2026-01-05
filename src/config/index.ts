@@ -21,6 +21,7 @@ const {
     ADMIN_FIRST_NAME,
     ADMIN_LAST_NAME,
     CLIENT_URL,
+    JWT_PUBLIC_KEY,
 } = process.env
 
 export const Config = {
@@ -39,4 +40,5 @@ export const Config = {
     ADMIN_FIRST_NAME,
     ADMIN_LAST_NAME,
     CLIENT_URL,
+    JWT_PUBLIC_KEY,
 }
