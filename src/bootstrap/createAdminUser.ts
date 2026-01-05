@@ -3,6 +3,7 @@ import { User } from '../entity/User'
 import { Roles } from '../constants'
 import { Config } from '../config'
 import logger from '../config/logger'
+import bcrypt from 'bcryptjs'
 
 export const createAdminUser = async (): Promise<void> => {
     if (!Config.ADMIN_EMAIL || !Config.ADMIN_PASSWORD) {
@@ -21,11 +22,15 @@ export const createAdminUser = async (): Promise<void> => {
         return
     }
 
+    // Hash the password
+    const saltRounds = 10
+    const hashedPassword = await bcrypt.hash(Config.ADMIN_PASSWORD, saltRounds)
+
     const admin = userRepository.create({
         firstName: Config.ADMIN_FIRST_NAME || 'System',
         lastName: Config.ADMIN_LAST_NAME || 'Admin',
         email: Config.ADMIN_EMAIL,
-        password: Config.ADMIN_PASSWORD,
+        password: hashedPassword,
         role: Roles.ADMIN,
     })
 
