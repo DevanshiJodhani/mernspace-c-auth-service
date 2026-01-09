@@ -1,9 +1,5 @@
-import express, {
-    Request,
-    Response,
-    NextFunction,
-    RequestHandler,
-} from 'express'
+import express, { Response, NextFunction, RequestHandler } from 'express'
+import { Request } from 'express-jwt'
 import { TenantController } from '../controllers/TenantController'
 import { TenantService } from '../services/TenantService'
 import { AppDataSource } from '../config/data-source'
@@ -12,9 +8,9 @@ import logger from '../config/logger'
 import authenticate from '../middlewares/authenticate'
 import { canAccess } from '../middlewares/canAccess'
 import { Roles } from '../constants'
-import listUsersValidator from '../validators/list-users-validator'
 import tenantValidator from '../validators/tenant-validator'
 import { CreateTenantRequest } from '../types'
+import listTenantsValidator from '../validators/list-tenants-validator'
 
 const router = express.Router()
 
@@ -33,7 +29,7 @@ router.post(
 
 router.get(
     '/',
-    listUsersValidator,
+    listTenantsValidator,
     (req: Request, res: Response, next: NextFunction) => {
         tenantController.getAll(req, res, next) as unknown as RequestHandler
     },
