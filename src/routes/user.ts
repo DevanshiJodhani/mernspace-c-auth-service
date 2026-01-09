@@ -1,9 +1,5 @@
-import express, {
-    Request,
-    Response,
-    NextFunction,
-    RequestHandler,
-} from 'express'
+import express, { Response, NextFunction, RequestHandler } from 'express'
+import { Request } from 'express-jwt'
 import authenticate from '../middlewares/authenticate'
 import { canAccess } from '../middlewares/canAccess'
 import { Roles } from '../constants'
