@@ -10,7 +10,14 @@ export class UserService {
     }
     constructor(private readonly userRepository: Repository<User>) {}
 
-    async create({ firstName, lastName, email, password, role }: UserData) {
+    async create({
+        firstName,
+        lastName,
+        email,
+        password,
+        role,
+        tenantId,
+    }: UserData) {
         const user = await this.userRepository.findOne({
             where: { email: email },
         })
@@ -30,6 +37,7 @@ export class UserService {
             email,
             password: hashedPassword,
             role,
+            tenant: tenantId ? { id: tenantId } : undefined,
         })
     }
 
