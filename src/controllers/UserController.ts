@@ -43,6 +43,7 @@ export class UserController {
             )
 
             this.logger.info('All users has been fetched')
+
             res.json({
                 currentPage: validatedQuery.currentPage as number,
                 perPage: validatedQuery.perPage as number,
