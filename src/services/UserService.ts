@@ -85,7 +85,7 @@ export class UserService {
             .leftJoinAndSelect('user.tenant', 'tenant')
             .skip((validatedQuery.currentPage - 1) * validatedQuery.perPage)
             .take(validatedQuery.perPage)
-            .orderBy('user.id', 'DESC')
+            .orderBy('user.id', 'ASC')
             .getManyAndCount()
         return result
     }
