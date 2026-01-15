@@ -102,13 +102,22 @@ export class UserService {
         userId: number,
         { firstName, lastName, role, email, tenantId }: LimitedUserData,
     ) {
-        return await this.userRepository.save({
-            firstName,
-            lastName,
-            role,
-            email,
-            tenant: tenantId ? { id: tenantId } : undefined,
-        })
+        try {
+            return await this.userRepository.update(userId, {
+                firstName,
+                lastName,
+                role,
+                email,
+                tenant: tenantId ? { id: tenantId } : undefined,
+            })
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        } catch (err) {
+            const error = createHttpError(
+                500,
+                'Failed to update the user in the database',
+            )
+            throw error
+        }
     }
 
     async deleteById(userId: number) {
