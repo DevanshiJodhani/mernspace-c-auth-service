@@ -81,7 +81,7 @@ public/
 .env.test.local
 .env.production.local
 .env.local
-.env.prod
+.env.production
 .env.test
 .env.dev
 
