@@ -24,6 +24,11 @@ app.get('/', (req, res) => {
     res.send('Welcome to auth service.')
 })
 
+// Health check route
+app.get('/health', (req, res) => {
+    res.status(200).send('Auth service running perfectly')
+})
+
 app.use(jwksRoutes)
 app.use('/auth', authRouter)
 app.use('/tenants', tenantRouter)
