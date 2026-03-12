@@ -3,7 +3,9 @@ import { Config } from '../config'
 import { User } from '../entity/User'
 import { RefreshToken } from '../entity/RefreshToken'
 import { Repository } from 'typeorm'
-import createHttpError from 'http-errors'
+// import createHttpError from 'http-errors'
+import fs from "fs"
+import path from "path"
 
 export class TokenService {
     constructor(
@@ -11,26 +13,12 @@ export class TokenService {
     ) {}
 
     generateAccessToken(payload: JwtPayload) {
-        if (!Config.PRIVATE_KEY) {
-            const error = createHttpError(500, 'SECRET_KEY is not set.')
-            throw error
-        }
+        // if (!Config.PRIVATE_KEY) {
+        //     const error = createHttpError(500, 'SECRET_KEY is not set.')
+        //     throw error
+        // }
 
-        const privateKey = Config.PRIVATE_KEY
-
-        const accessToken = sign(payload, privateKey, {
-            algorithm: 'RS256',
-            expiresIn: '1h',
-            issuer: 'auth-service',
-        })
-
-        return accessToken
-
-        // **** This is for when you run localally test case*****
-
-        // const privateKeyPath = path.join(__dirname, '../../certs/private.pem')
-
-        // const privateKey = fs.readFileSync(privateKeyPath, 'utf8')
+        // const privateKey = Config.PRIVATE_KEY
 
         // const accessToken = sign(payload, privateKey, {
         //     algorithm: 'RS256',
@@ -39,6 +27,20 @@ export class TokenService {
         // })
 
         // return accessToken
+
+        // **** This is for when you run localally test case*****
+
+        const privateKeyPath = path.join(__dirname, '../../certs/private.pem')
+
+        const privateKey = fs.readFileSync(privateKeyPath, 'utf8')
+
+        const accessToken = sign(payload, privateKey, {
+            algorithm: 'RS256',
+            expiresIn: '1h',
+            issuer: 'auth-service',
+        })
+
+        return accessToken
     }
 
     generateRefreshToken(payload: JwtPayload) {
