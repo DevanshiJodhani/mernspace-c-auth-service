@@ -71,14 +71,16 @@ export class AuthController {
 
             res.cookie('accessToken', accessToken, {
                 domain: Config.MAIN_DOMAIN,
-                sameSite: 'strict',
+                sameSite: 'none',
+                secure: true,
                 maxAge: 1000 * 60 * 60, // 1h
                 httpOnly: true, // Very Important
             })
 
             res.cookie('refreshToken', refreshToken, {
                 domain: Config.MAIN_DOMAIN,
-                sameSite: 'strict',
+                sameSite: 'none',
+                secure: true,
                 maxAge: 1000 * 60 * 60 * 24 * 365, // 1Y
                 httpOnly: true, // Very Important
             })
@@ -159,14 +161,16 @@ export class AuthController {
 
             res.cookie('accessToken', accessToken, {
                 domain: Config.MAIN_DOMAIN,
-                sameSite: 'strict',
+                sameSite: 'none',
+                secure: true,
                 maxAge: 1000 * 60 * 60, // 1h
                 httpOnly: true, // Very Important
             })
 
             res.cookie('refreshToken', refreshToken, {
                 domain: Config.MAIN_DOMAIN,
-                sameSite: 'strict',
+                sameSite: 'none',
+                secure: true,
                 maxAge: 1000 * 60 * 60 * 24 * 365, // 1Y
                 httpOnly: true, // Very Important
             })
@@ -225,14 +229,16 @@ export class AuthController {
 
             res.cookie('accessToken', accessToken, {
                 domain: Config.MAIN_DOMAIN,
-                sameSite: 'strict',
+                sameSite: 'none',
+                secure: true,
                 maxAge: 1000 * 60 * 60, // 1h
                 httpOnly: true, // Very Important
             })
 
             res.cookie('refreshToken', refreshToken, {
                 domain: Config.MAIN_DOMAIN,
-                sameSite: 'strict',
+                sameSite: 'none',
+                secure: true,
                 maxAge: 1000 * 60 * 60 * 24 * 365, // 1Y
                 httpOnly: true, // Very Important
             })
