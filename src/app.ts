@@ -10,6 +10,8 @@ import { Config } from './config'
 
 const app = express()
 
+app.set('trust proxy', 1)
+
 app.use(express.static('public'))
 app.use(
     cors({
