@@ -13,12 +13,24 @@ const app = express()
 app.set('trust proxy', 1)
 
 app.use(express.static('public'))
+
 app.use(
     cors({
-        origin: Config.CLIENT_URL,
+        origin: function (origin, callback) {
+            const allowedOrigins = [Config.ADMIN_URL, Config.CLIENT_URL]
+
+            if (!origin) return callback(null, true)
+
+            if (allowedOrigins.includes(origin)) {
+                return callback(null, true)
+            } else {
+                return callback(new Error('Not allowed by CORS'))
+            }
+        },
         credentials: true,
     }),
 )
+
 app.use(cookieParser())
 app.use(express.json())
 

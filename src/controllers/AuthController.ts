@@ -8,7 +8,6 @@ import { TokenService } from '../services/TokenService'
 import createHttpError from 'http-errors'
 import { CredentialService } from '../services/CredentialServid'
 import { Roles } from '../constants'
-import { Config } from '../config'
 
 export class AuthController {
     constructor(
@@ -70,7 +69,7 @@ export class AuthController {
             })
 
             res.cookie('accessToken', accessToken, {
-                domain: Config.MAIN_DOMAIN,
+                // domain: Config.MAIN_DOMAIN,
                 sameSite: 'none',
                 secure: true,
                 maxAge: 1000 * 60 * 60, // 1h
@@ -78,7 +77,7 @@ export class AuthController {
             })
 
             res.cookie('refreshToken', refreshToken, {
-                domain: Config.MAIN_DOMAIN,
+                // domain: Config.MAIN_DOMAIN,
                 sameSite: 'none',
                 secure: true,
                 maxAge: 1000 * 60 * 60 * 24 * 365, // 1Y
@@ -160,7 +159,7 @@ export class AuthController {
             })
 
             res.cookie('accessToken', accessToken, {
-                domain: Config.MAIN_DOMAIN,
+                // domain: Config.MAIN_DOMAIN,
                 sameSite: 'none',
                 secure: true,
                 maxAge: 1000 * 60 * 60, // 1h
@@ -168,7 +167,7 @@ export class AuthController {
             })
 
             res.cookie('refreshToken', refreshToken, {
-                domain: Config.MAIN_DOMAIN,
+                // domain: Config.MAIN_DOMAIN,
                 sameSite: 'none',
                 secure: true,
                 maxAge: 1000 * 60 * 60 * 24 * 365, // 1Y
@@ -228,7 +227,7 @@ export class AuthController {
             })
 
             res.cookie('accessToken', accessToken, {
-                domain: Config.MAIN_DOMAIN,
+                // domain: Config.MAIN_DOMAIN,
                 sameSite: 'none',
                 secure: true,
                 maxAge: 1000 * 60 * 60, // 1h
@@ -236,7 +235,7 @@ export class AuthController {
             })
 
             res.cookie('refreshToken', refreshToken, {
-                domain: Config.MAIN_DOMAIN,
+                // domain: Config.MAIN_DOMAIN,
                 sameSite: 'none',
                 secure: true,
                 maxAge: 1000 * 60 * 60 * 24 * 365, // 1Y
